@@ -21,8 +21,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        
-        if !appUser.isEmpty {
+        let token = UserSession.shared.token
+        if !token.isEmpty {
             let productV = storyBoard.instantiateViewController(identifier: "ProductNavigationController")
             window?.rootViewController = productV
             window?.makeKeyAndVisible()

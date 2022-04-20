@@ -126,7 +126,6 @@ class ProductsViewController: UIViewController,UICollectionViewDataSource, UICol
         let collectionViewWidth = collectionView.bounds.width
         let flowayout = collectionViewLayout as! UICollectionViewFlowLayout
         let spaceBetweenCells = flowayout.minimumInteritemSpacing
-        let contentinset = collectionView.adjustedContentInset
         let adjustedWidth = collectionViewWidth - (spaceBetweenCells + 20)
 
         let width: CGFloat = adjustedWidth / 2

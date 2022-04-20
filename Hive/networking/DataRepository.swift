@@ -8,20 +8,12 @@
 import Foundation
 class DataRepository {
     static let shared = DataRepository()
-    fileprivate let basedURLString = "https://assessment-api.hivestage.com"
-
-    let token = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZWludHNhbiIsImF1dGgiOiJST0xFX1VTRVIiLCJpYXQiOjE2NTAzODAxNDAsImV4cCI6MTY1MDk4NDk0MH0.4EUE-mj_0oClLgEVOi5LXUxOmdUMLR_x6mkvaOORc4LTf7eqq2lmDVwl4N_2FeP67m0KENK6PKh5Xzmp2AmAFw"
-    
     func createURLComponents(path: String ) -> URLComponents{
         var component = URLComponents()
         component.scheme="https"
         component.host="assessment-api.hivestage.com"
-        //component.port = 5000
         component.path = path
-    
-        
-    
-        
+
         return component
     }
     func fetchProducts( parameters: Dictionary<String,String>,completion:@escaping(Result<ProductResponse,Error>) -> Void) {
@@ -39,12 +31,12 @@ class DataRepository {
             print("URL creation failed...")
             return
         }
-        
+        let token = UserSession.shared.token
+
         var getUrlRequest = URLRequest(url: composedURL)
         getUrlRequest.httpMethod = "GET"
-//        getUrlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")  // the request is JSON
         getUrlRequest.setValue("*", forHTTPHeaderField: "accept")
-        getUrlRequest.setValue(token
+        getUrlRequest.setValue("Bearer \(token)"
 , forHTTPHeaderField: "Authorization")
 
         
@@ -83,7 +75,6 @@ class DataRepository {
     func login(parameters: LoginRequest ,completion:@escaping(Result<LoginResponse,Error>  ) -> Void) {
         
         let component = createURLComponents(path:"/api/auth/login")
-        print(component.url)
        
         guard let composedURL = component.url else {
             print("URL creation failed...")
@@ -98,7 +89,6 @@ class DataRepository {
         do {
             let loginData = try JSONEncoder().encode(parameters)
             let StringData = String(data: loginData,encoding: .utf8)
-            print(StringData)
             postUrlRequest.httpBody = loginData
             
         }catch {

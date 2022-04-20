@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var welcomeLabel: UILabel!
@@ -40,6 +40,7 @@ class LoginViewController: UIViewController {
         //textField Style
         emailTextField.addBottomBorder()
         passwordTextField.addBottomBorder()
+        passwordTextField.delegate = self
         
         //buttom rounded border
         loginButton.layer.cornerRadius = 5
@@ -56,6 +57,7 @@ class LoginViewController: UIViewController {
             case .success(let loginResponse) :
                 
                 print(loginResponse.token)
+                UserSession.shared.token = loginResponse.token
                 DispatchQueue.main.async {
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
                     let productsViewController = storyboard.instantiateViewController(identifier: "ProductNavigationController")
@@ -63,9 +65,7 @@ class LoginViewController: UIViewController {
                             .first!.delegate as! SceneDelegate
                     sceneDelegate.window?.rootViewController = productsViewController
                 }
-               
-                    
-//                sceneDelegate.window..setRootViewController(productsViewController, loginResponse.token ?? "0"))
+            
             case .failure(let error):
                 print(error)
             }
@@ -74,6 +74,15 @@ class LoginViewController: UIViewController {
         })
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if (textField == self.passwordTextField) {
+            textField.resignFirstResponder()
+            
+            return false;
+        }
+        return true;
+
+    }
     /*
     // MARK: - Navigation
 
