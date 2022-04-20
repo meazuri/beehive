@@ -8,7 +8,8 @@
 import UIKit
 import Kingfisher
 
-class ProductsViewController: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout, UITextFieldDelegate  {
+class ProductsViewController: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout, UITextFieldDelegate, UICollectionViewDataSourcePrefetching  {
+    
 
     var products : [Product] = []
     @IBOutlet weak var searchTextField: UITextField!
@@ -83,7 +84,10 @@ class ProductsViewController: UIViewController,UICollectionViewDataSource, UICol
     
     
     // MARK: CollectionView Delegate
-    
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        
+    }
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
     }
