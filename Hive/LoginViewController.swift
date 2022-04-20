@@ -44,7 +44,36 @@ class LoginViewController: UIViewController {
         //buttom rounded border
         loginButton.layer.cornerRadius = 5
     }
-
+    @IBAction func login(_ sender: Any) {
+        
+        let username :String = emailTextField.text ?? ""
+        let password = passwordTextField.text ?? ""
+        let loginRequest = LoginRequest(username: username, password: password)
+        
+        DataRepository.shared.login(parameters: loginRequest,completion: { (result ) in
+            
+            switch result {
+            case .success(let loginResponse) :
+                
+                print(loginResponse.token)
+                DispatchQueue.main.async {
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let productsViewController = storyboard.instantiateViewController(identifier: "ProductNavigationController")
+                    let sceneDelegate = UIApplication.shared.connectedScenes
+                            .first!.delegate as! SceneDelegate
+                    sceneDelegate.window?.rootViewController = productsViewController
+                }
+               
+                    
+//                sceneDelegate.window..setRootViewController(productsViewController, loginResponse.token ?? "0"))
+            case .failure(let error):
+                print(error)
+            }
+            
+        
+        })
+    }
+    
     /*
     // MARK: - Navigation
 

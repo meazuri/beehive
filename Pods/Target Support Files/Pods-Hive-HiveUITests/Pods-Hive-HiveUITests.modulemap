@@ -1,0 +1,6 @@
+framework module Pods_Hive_HiveUITests {
+  umbrella header "Pods-Hive-HiveUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
