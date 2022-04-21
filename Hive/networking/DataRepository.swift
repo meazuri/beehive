@@ -32,7 +32,6 @@ class DataRepository {
             return
         }
         let token = UserSession.shared.token
-
         var getUrlRequest = URLRequest(url: composedURL)
         getUrlRequest.httpMethod = "GET"
         getUrlRequest.setValue("*", forHTTPHeaderField: "accept")
@@ -65,7 +64,8 @@ class DataRepository {
                     completion(.failure(serializationError))
                 }
             }else{
-                completion(.failure(error!))
+                var hivError = HiveError.checkErrorCode(httpResponse.statusCode)
+                completion(.failure(hivError))
 
             }
             
@@ -116,7 +116,8 @@ class DataRepository {
                     completion(.failure(serializationError))
                 }
             }else{
-                completion(.failure(error!))
+                var hivError = HiveError.checkErrorCode(httpREsponse.statusCode)
+                completion(.failure(hivError))
 
             }
             

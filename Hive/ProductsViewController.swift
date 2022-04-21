@@ -27,7 +27,10 @@ class ProductsViewController: UIViewController,UICollectionViewDataSource, UICol
         fetchProducts(keyword: "")
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = false
 
+    }
     override func viewDidAppear(_ animated: Bool) {
         configureUI()
     }
@@ -49,8 +52,29 @@ class ProductsViewController: UIViewController,UICollectionViewDataSource, UICol
                     self.products = productResponse.content
                     self.collectionView.reloadData()
                 }
-            case .failure(let error):
+            case .failure(let error ):
                 print(error)
+                if let hivError = error as? HiveError {
+                    
+                    switch hivError {
+                    case .invalidCredentials:
+                        KeychainHelper.standard.delete(service: "access-token", account: "hive")
+                        DispatchQueue.main.async {
+                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                            let loginViewController = storyboard.instantiateViewController(identifier: "LoginViewController")
+                            let sceneDelegate = UIApplication.shared.connectedScenes
+                                    .first!.delegate as! SceneDelegate
+                            sceneDelegate.window?.rootViewController = loginViewController
+                        }
+                    default:
+                        print(error)
+
+                    }
+
+                }else{
+                    print(error)
+
+                }
             }
         })
         
@@ -132,6 +156,30 @@ class ProductsViewController: UIViewController,UICollectionViewDataSource, UICol
 
         return CGSize(width: width, height: width)
 
+    }
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+        
+        guard let selectedProductCollectionCell = sender as? ProductCollectionViewCell  else {
+            fatalError("Unexpected sender: \(String(describing: sender))")}
+        guard let indexPath = collectionView.indexPath(for: selectedProductCollectionCell) else {
+            fatalError("The selected cell is not being displayed by the table")}
+                                   
+        guard let productDetailController = segue.destination as? ProductDetailViewController else{
+                             fatalError("Unexpected destination: \(segue.destination)")
+                  }
+                  
+        switch (segue.identifier ?? "") {
+            case "productDetail":
+                    let selectedProduct = products[ indexPath.row]
+                productDetailController.selectedProduct = selectedProduct
+                  default:
+                      fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
+
+                  }
     }
 }
 

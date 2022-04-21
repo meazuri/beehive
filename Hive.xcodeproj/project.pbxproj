@@ -10,6 +10,9 @@
 		2E0A881FF83F7E95116DD6D3 /* Pods_HiveTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDF9E469B316CB79381EC4FE /* Pods_HiveTests.framework */; };
 		49772451280FA31000CA0ECC /* KeychaingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49772450280FA31000CA0ECC /* KeychaingHelper.swift */; };
 		49772453280FADB700CA0ECC /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49772452280FADB700CA0ECC /* UserSession.swift */; };
+		49772455280FB96C00CA0ECC /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49772454280FB96C00CA0ECC /* ProductDetailViewController.swift */; };
+		49772457280FEB9F00CA0ECC /* SementControlExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49772456280FEB9F00CA0ECC /* SementControlExtension.swift */; };
+		4977245B2810001A00CA0ECC /* ErrorCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4977245A2810001A00CA0ECC /* ErrorCode.swift */; };
 		49C8D27C280E90D800FCFF25 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C8D27B280E90D800FCFF25 /* AppDelegate.swift */; };
 		49C8D27E280E90D800FCFF25 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C8D27D280E90D800FCFF25 /* SceneDelegate.swift */; };
 		49C8D280280E90D800FCFF25 /* ProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C8D27F280E90D800FCFF25 /* ProductsViewController.swift */; };
@@ -52,6 +55,9 @@
 		42C01BFDBF7513D9BA771C6C /* Pods_Hive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		49772450280FA31000CA0ECC /* KeychaingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychaingHelper.swift; sourceTree = "<group>"; };
 		49772452280FADB700CA0ECC /* UserSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
+		49772454280FB96C00CA0ECC /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
+		49772456280FEB9F00CA0ECC /* SementControlExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SementControlExtension.swift; sourceTree = "<group>"; };
+		4977245A2810001A00CA0ECC /* ErrorCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorCode.swift; sourceTree = "<group>"; };
 		49C8D278280E90D800FCFF25 /* Hive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49C8D27B280E90D800FCFF25 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		49C8D27D280E90D800FCFF25 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -164,6 +170,7 @@
 				49C8D286280E90DA00FCFF25 /* LaunchScreen.storyboard */,
 				49C8D289280E90DA00FCFF25 /* Info.plist */,
 				49C8D2AB280EA70B00FCFF25 /* LoginViewController.swift */,
+				49772454280FB96C00CA0ECC /* ProductDetailViewController.swift */,
 			);
 			path = Hive;
 			sourceTree = "<group>";
@@ -200,6 +207,7 @@
 			isa = PBXGroup;
 			children = (
 				49C8D2B1280EBC2900FCFF25 /* UITextFieldExtension.swift */,
+				49772456280FEB9F00CA0ECC /* SementControlExtension.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -226,6 +234,7 @@
 				49C8D2BF280EF05300FCFF25 /* networkRequest */,
 				49C8D2BC280EEAE600FCFF25 /* newworkResponse */,
 				49C8D2BA280EE79000FCFF25 /* DataRepository.swift */,
+				4977245A2810001A00CA0ECC /* ErrorCode.swift */,
 			);
 			path = networking;
 			sourceTree = "<group>";
@@ -496,7 +505,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				49C8D2C3280F0DCE00FCFF25 /* ProductResponse.swift in Sources */,
+				49772457280FEB9F00CA0ECC /* SementControlExtension.swift in Sources */,
 				49C8D2AC280EA70B00FCFF25 /* LoginViewController.swift in Sources */,
+				49772455280FB96C00CA0ECC /* ProductDetailViewController.swift in Sources */,
+				4977245B2810001A00CA0ECC /* ErrorCode.swift in Sources */,
 				49C8D2B2280EBC2900FCFF25 /* UITextFieldExtension.swift in Sources */,
 				49772453280FADB700CA0ECC /* UserSession.swift in Sources */,
 				49C8D2B8280EE2BC00FCFF25 /* ProductCollectionViewCell.swift in Sources */,
