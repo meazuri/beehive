@@ -27,7 +27,7 @@ class ProductDetailViewController: UIViewController {
     @IBOutlet weak var Category: UILabel!
     
     var selectedProduct : Product?
-    var quantity = 0
+    var quantity = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,6 +59,7 @@ class ProductDetailViewController: UIViewController {
             productDetailLabel.numberOfLines = 0
             productDetailLabel.text = productDetail.description
             Category.text = productDetail.createdDate
+            quantityLabel.text = String(quantity)
         }
       
         
@@ -68,7 +69,7 @@ class ProductDetailViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     @IBAction func minus(_ sender: Any) {
-        if (quantity > 0) {
+        if (quantity > 1) {
             quantity = quantity - 1
             quantityLabel.text = String(quantity)
         }
@@ -78,6 +79,11 @@ class ProductDetailViewController: UIViewController {
         quantityLabel.text = String(quantity)
     }
     @IBAction func addToCart(_ sender: Any) {
+        
+        CoreDataHelper.shared.insertProduct(productToAdd: selectedProduct!, quantity: Int32(quantity))
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let nextViewController = storyboard.instantiateViewController(identifier: "OrderViewController") as OrderViewController
+        self.navigationController?.pushViewController(nextViewController, animated: true)
         
     }
    

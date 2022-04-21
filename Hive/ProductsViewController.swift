@@ -143,6 +143,10 @@ class ProductsViewController: UIViewController,UICollectionViewDataSource, UICol
     @objc func addProduct(_ sender:UIButton)  {
         
         print("buttonPressed ! \(sender.tag)")
+        let addToCartProduct = products[sender.tag]
+        CoreDataHelper.shared.insertProduct(productToAdd: addToCartProduct, quantity: 1)
+        
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -162,20 +166,24 @@ class ProductsViewController: UIViewController,UICollectionViewDataSource, UICol
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
-        
-        guard let selectedProductCollectionCell = sender as? ProductCollectionViewCell  else {
-            fatalError("Unexpected sender: \(String(describing: sender))")}
-        guard let indexPath = collectionView.indexPath(for: selectedProductCollectionCell) else {
-            fatalError("The selected cell is not being displayed by the table")}
-                                   
-        guard let productDetailController = segue.destination as? ProductDetailViewController else{
-                             fatalError("Unexpected destination: \(segue.destination)")
-                  }
                   
         switch (segue.identifier ?? "") {
             case "productDetail":
+                guard let selectedProductCollectionCell = sender as? ProductCollectionViewCell  else {
+                    fatalError("Unexpected sender: \(String(describing: sender))")}
+                guard let indexPath = collectionView.indexPath(for: selectedProductCollectionCell) else {
+                    fatalError("The selected cell is not being displayed by the table")}
+                                           
+                guard let productDetailController = segue.destination as? ProductDetailViewController else{
+                                     fatalError("Unexpected destination: \(segue.destination)")
+                          }
                     let selectedProduct = products[ indexPath.row]
                 productDetailController.selectedProduct = selectedProduct
+        case "cart":
+            guard let destinationController = segue.destination as? OrderViewController else{
+                                 fatalError("Unexpected destination: \(segue.destination)")
+                      }
+                
                   default:
                       fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
 

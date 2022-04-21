@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20G80" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Order" representedClassName="Order" syncable="YES">
+        <attribute name="address" optional="YES" attributeType="String"/>
+        <attribute name="orderdate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="orderId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="orderdetail" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="OrderDetail" inverseName="order" inverseEntity="OrderDetail"/>
+    </entity>
+    <entity name="OrderDetail" representedClassName="OrderDetail" syncable="YES">
+        <attribute name="quantity" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="order" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Order" inverseName="orderdetail" inverseEntity="Order"/>
+        <relationship name="orderproduct" maxCount="1" deletionRule="Nullify" destinationEntity="OrderProduct" inverseName="orderdetail" inverseEntity="OrderProduct"/>
+    </entity>
+    <entity name="OrderProduct" representedClassName="OrderProduct" syncable="YES">
+        <attribute name="amount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="desp" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="image" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="orderdetail" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="OrderDetail" inverseName="orderproduct" inverseEntity="OrderDetail"/>
+    </entity>
+    <elements>
+        <element name="Order" positionX="-54" positionY="27" width="128" height="89"/>
+        <element name="OrderDetail" positionX="-36" positionY="45" width="128" height="74"/>
+        <element name="OrderProduct" positionX="-63" positionY="-18" width="128" height="119"/>
+    </elements>
+</model>

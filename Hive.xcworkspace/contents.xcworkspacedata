@@ -2,6 +2,24 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/seintsan/Documents/IOSProjects/Hive/Hive/model/OrderProduct+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/seintsan/Documents/IOSProjects/Hive/Hive/model/OrderProduct+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/seintsan/Documents/IOSProjects/Hive/Hive/model/OrderDetail+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/seintsan/Documents/IOSProjects/Hive/Hive/model/OrderDetail+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/seintsan/Documents/IOSProjects/Hive/Hive/model/Order+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/seintsan/Documents/IOSProjects/Hive/Hive/model/Order+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
       location = "group:Hive.xcodeproj">
    </FileRef>
    <FileRef
