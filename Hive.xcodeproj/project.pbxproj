@@ -35,6 +35,7 @@
 		49ADE3A128115CAF0082FDDC /* OrderRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49ADE3A028115CAF0082FDDC /* OrderRequest.swift */; };
 		49ADE3A328115D2F0082FDDC /* OrderEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49ADE3A228115D2F0082FDDC /* OrderEntity.swift */; };
 		49ADE3A528116F1E0082FDDC /* OrderCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49ADE3A428116F1E0082FDDC /* OrderCompleteViewController.swift */; };
+		49ADE3A928119A960082FDDC /* ProductsViewControllerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49ADE3A828119A960082FDDC /* ProductsViewControllerViewModel.swift */; };
 		49C8D27C280E90D800FCFF25 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C8D27B280E90D800FCFF25 /* AppDelegate.swift */; };
 		49C8D27E280E90D800FCFF25 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C8D27D280E90D800FCFF25 /* SceneDelegate.swift */; };
 		49C8D280280E90D800FCFF25 /* ProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C8D27F280E90D800FCFF25 /* ProductsViewController.swift */; };
@@ -102,6 +103,7 @@
 		49ADE3A028115CAF0082FDDC /* OrderRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderRequest.swift; sourceTree = "<group>"; };
 		49ADE3A228115D2F0082FDDC /* OrderEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderEntity.swift; sourceTree = "<group>"; };
 		49ADE3A428116F1E0082FDDC /* OrderCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCompleteViewController.swift; sourceTree = "<group>"; };
+		49ADE3A828119A960082FDDC /* ProductsViewControllerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewControllerViewModel.swift; sourceTree = "<group>"; };
 		49C8D278280E90D800FCFF25 /* Hive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49C8D27B280E90D800FCFF25 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		49C8D27D280E90D800FCFF25 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -195,6 +197,14 @@
 			path = coreDataModel;
 			sourceTree = "<group>";
 		};
+		49ADE3A728119A470082FDDC /* viewModel */ = {
+			isa = PBXGroup;
+			children = (
+				49ADE3A828119A960082FDDC /* ProductsViewControllerViewModel.swift */,
+			);
+			path = viewModel;
+			sourceTree = "<group>";
+		};
 		49C8D26F280E90D800FCFF25 = {
 			isa = PBXGroup;
 			children = (
@@ -221,6 +231,7 @@
 		49C8D27A280E90D800FCFF25 /* Hive */ = {
 			isa = PBXGroup;
 			children = (
+				49ADE3A728119A470082FDDC /* viewModel */,
 				49C8D2B9280EE77900FCFF25 /* networking */,
 				49C8D2B6280EE2A600FCFF25 /* customViews */,
 				49C8D2B3280EE1B000FCFF25 /* model */,
@@ -588,6 +599,7 @@
 				49ADE38D2811170F0082FDDC /* OrderProduct+CoreDataClass.swift in Sources */,
 				4977245B2810001A00CA0ECC /* ErrorCode.swift in Sources */,
 				49ADE393281121A30082FDDC /* OrderItemTableViewCell.swift in Sources */,
+				49ADE3A928119A960082FDDC /* ProductsViewControllerViewModel.swift in Sources */,
 				49ADE3A328115D2F0082FDDC /* OrderEntity.swift in Sources */,
 				49C8D2B2280EBC2900FCFF25 /* UITextFieldExtension.swift in Sources */,
 				49ADE3A128115CAF0082FDDC /* OrderRequest.swift in Sources */,

@@ -13,7 +13,7 @@ protocol AlertDisplayer {
 }
 
 extension AlertDisplayer where Self: UIViewController {
-  func displayAlert(with title: String, message: String, actions: [UIAlertAction]? = nil, textField : String) {
+  func displayAlert(with title: String, message: String, actions: [UIAlertAction]? = nil ) {
     guard presentedViewController == nil else {
       return
     }
@@ -22,12 +22,7 @@ extension AlertDisplayer where Self: UIViewController {
     actions?.forEach { action in
       alertController.addAction(action)
     }
-    if(!textField.isEmpty){
-      alertController.addTextField { (textField) in
-          // configure the properties of the text field
-          textField.placeholder = "textField"
-      }
-    }
+    
     present(alertController, animated: true)
   }
 }

@@ -206,7 +206,7 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" id="UnR-Br-eu2">
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="medium" id="UnR-Br-eu2">
                                 <rect key="frame" x="149" y="447" width="76" height="57"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </activityIndicatorView>
@@ -243,6 +243,7 @@
                     <connections>
                         <outlet property="collectionView" destination="j2V-IG-eZu" id="WRO-U5-0vU"/>
                         <outlet property="greetingLabel" destination="H26-Tv-92P" id="yhK-nM-MSM"/>
+                        <outlet property="loadingIndicator" destination="UnR-Br-eu2" id="iKg-dS-Rvc"/>
                         <outlet property="searchTextField" destination="3er-JU-nga" id="3hA-Av-9ZI"/>
                     </connections>
                 </viewController>
@@ -740,7 +741,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="uhB-Ca-3Ed"/>
+        <segue reference="gx3-pW-fnG"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="back" width="24" height="21"/>

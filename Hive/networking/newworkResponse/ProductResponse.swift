@@ -12,10 +12,11 @@ struct ProductResponse: Decodable {
     var size : Int
     var totalElements : Int
     var last : Bool
+    var totalPages: Int
     var content : [Product]
     
     enum CodingKeys: String,CodingKey {
-        case page,size,totalElements,last,content
+        case page,size,totalElements,last,content,totalPages
     }
     
     init(from decoder: Decoder) throws {
@@ -25,6 +26,8 @@ struct ProductResponse: Decodable {
         self.totalElements = try container.decode(Int.self, forKey: .totalElements)
         self.last = try container.decode(Bool.self, forKey: .last)
         self.content = try container.decode([Product].self, forKey: .content)
+        self.totalPages = try container.decode(Int.self, forKey: .totalPages)
+
 
 
     }
