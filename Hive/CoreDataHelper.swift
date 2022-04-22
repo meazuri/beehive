@@ -44,7 +44,16 @@ class CoreDataHelper {
         }
         return nil
     }
-    
+    func getEntityCount() -> Int {
+        let fetchRequest = NSFetchRequest<Order>(entityName: "OrderDetail")
+        do {
+            let orderCount =  try context.count(for: fetchRequest)
+            return orderCount
+        }catch (let error){
+            return 0
+        }
+
+    }
     func insertProduct(productToAdd:Product,quantity: Int32 )  {
         let productEntitiy = OrderProduct(context: context)
         productEntitiy.name = productToAdd.name
@@ -93,13 +102,19 @@ class CoreDataHelper {
         }
     }
     func deleteOrder()  throws{
-        let fetchRequest = NSFetchRequest<Order>(entityName: "Order")
-        let orderArray = try context.fetch(fetchRequest)
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "Order")
+        let deleteOrderRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+
+        let fetchDetailRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "OrderDetail")
+        let deleteOrderDetailRequest = NSBatchDeleteRequest(fetchRequest: fetchDetailRequest)
+
         
-        for  order in orderArray{
-            context.delete(order)
-        }
-        try context.save()
+        let fetchOrderProductRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "OrderProduct")
+        let deleteOrderProductRequest = NSBatchDeleteRequest(fetchRequest: fetchOrderProductRequest)
+        try context.execute(deleteOrderRequest)
+        try context.execute(deleteOrderDetailRequest)
+        try context.execute(deleteOrderProductRequest)
+        
     }
     func updateAddress(address: String) throws {
         let fetchRequest = NSFetchRequest<Order>(entityName: "Order")

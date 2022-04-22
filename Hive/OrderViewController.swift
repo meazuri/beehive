@@ -82,6 +82,7 @@ class OrderViewController: UIViewController ,UITableViewDataSource,UITableViewDe
    
     
     @IBAction func checkOut(_ sender: Any) {
+        checkOutButton.isEnabled = false;
         viewModel.checkOut()
     }
     @IBAction func editAddress(_ sender: Any) {
@@ -135,7 +136,8 @@ class OrderViewController: UIViewController ,UITableViewDataSource,UITableViewDe
     
     // MARK: OrderViewControllerViewModelDelegate
     func onSubmitComplete(with orderNo: String) {
-       
+        checkOutButton.isEnabled = true;
+
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let nextViewController = storyboard.instantiateViewController(identifier: "OrderCompleteViewController") as OrderCompleteViewController
             nextViewController.orderNo = orderNo
@@ -147,12 +149,14 @@ class OrderViewController: UIViewController ,UITableViewDataSource,UITableViewDe
     }
     
     func onFailed(with reason: String) {
+        checkOutButton.isEnabled = true;
         printError(reason: reason)
 
     }
    
     
     func onAuthnicationFailed(with error: HiveError){
+        checkOutButton.isEnabled = true;
         switch error {
         case .invalidCredentials:
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)

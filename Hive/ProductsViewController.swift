@@ -36,60 +36,19 @@ class ProductsViewController: UIViewController,UICollectionViewDataSource, UICol
         searchTextField.delegate = self
         
         viewModel.fetchProducts(keyword: "")
+        addBadge()
+
     }
 
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = false
- 
+        addBadge()
+
     }
     override func viewDidAppear(_ animated: Bool) {
         configureUI()
     }
-//    func fetchProducts(keyword: String)  {
-//        var parameters: [String: String] = [:]
-//
-//        parameters["page"] = String(0)
-//        parameters["size"] = String(30)
-//
-//        if(!keyword.isEmpty){
-//            parameters["name"] = keyword
-//        }
-//
-//        DataRepository.shared.fetchProducts(parameters: parameters, completion: {(result) in
-//
-//            switch result {
-//            case .success(let productResponse):
-//                DispatchQueue.main.async {
-//                    self.products = productResponse.content
-//                    self.collectionView.reloadData()
-//                }
-//            case .failure(let error ):
-//                print(error)
-//                if let hivError = error as? HiveError {
-//
-//                    switch hivError {
-//                    case .invalidCredentials:
-//                        KeychainHelper.standard.delete(service: "access-token", account: "hive")
-//                        DispatchQueue.main.async {
-//                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//                            let loginViewController = storyboard.instantiateViewController(identifier: "LoginViewController")
-//                            let sceneDelegate = UIApplication.shared.connectedScenes
-//                                    .first!.delegate as! SceneDelegate
-//                            sceneDelegate.window?.rootViewController = loginViewController
-//                        }
-//                    default:
-//                        print(error)
-//
-//                    }
-//
-//                }else{
-//                    print(error)
-//
-//                }
-//            }
-//        })
-//
-//    }
+
     func configureUI()  {
         let searchImage = UIImage(named: "search")
 
@@ -163,7 +122,8 @@ class ProductsViewController: UIViewController,UICollectionViewDataSource, UICol
         
         print("buttonPressed ! \(sender.tag)")
         viewModel.addToCart(index: sender.tag)
-       
+        addBadge()
+
         
     }
     
@@ -223,6 +183,34 @@ class ProductsViewController: UIViewController,UICollectionViewDataSource, UICol
         let action = UIAlertAction(title: "OK", style: .default)
         displayAlert(with: title , message: reason, actions: [action])
 
+    }
+    @IBAction func showCart(_ sender: Any) {
+        performSegue(withIdentifier: "cart", sender: nil)
+    }
+    func addBadge()  {
+        print(viewModel.orderInCard)
+        if(viewModel.orderInCard > 0) {
+        let customView = UIView(frame: CGRect(x: 0, y: 0, width: 40, height:  40))
+        customView.backgroundColor = .clear
+        let shoppingCartImg = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        shoppingCartImg.setImage(UIImage(named: "purplecart"), for: .normal)
+        shoppingCartImg.addTarget(self, action: #selector(self.showCart), for: .touchUpInside)
+
+        
+        customView.addSubview(shoppingCartImg)
+        // we can also add this way
+//        let itemInCart = UIButton(frame: CGRect(x: 20, y: 12, width: 14, height: 14))
+//        itemInCart.layer.cornerRadius = 7
+//        itemInCart.backgroundColor = .red
+//        customView.addSubview(itemInCart)
+        self.navigationItem.rightBarButtonItem =  UIBarButtonItem(customView: customView)
+        }else {
+            let button = UIBarButtonItem(image: UIImage(named: "cart"), style: .plain, target: self, action: #selector(self.showCart))
+            button.tintColor = ColorPalette.Purple
+
+            self.navigationItem.rightBarButtonItem = button
+
+        }
     }
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation

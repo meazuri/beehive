@@ -39,7 +39,9 @@ final class ProductsViewControllerViewModel {
     var currentCount : Int {
         return products.count
     }
-    
+    var orderInCard : Int {
+       return CoreDataHelper.shared.getEntityCount();
+    }
     func product(at index:Int) -> Product {
         return products[index]
     }
