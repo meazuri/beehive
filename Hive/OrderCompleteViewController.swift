@@ -10,17 +10,12 @@ import UIKit
 class OrderCompleteViewController: UIViewController {
 
     @IBOutlet weak var orderNoLabel: UILabel!
-    var orderNo : String?
+    var orderNo : String = ""
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        if orderNo != nil {
-            orderNoLabel.text = "Order No : #\(String(describing: orderNo))"
-        }
-        
-        
-
+       orderNoLabel.text = "Order No : #\(String(describing: orderNo))"
     }
     override func viewWillDisappear(_ animated: Bool) {
         

@@ -7,8 +7,8 @@
 
 import UIKit
 
-class OrderViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate{
- 
+class OrderViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate, OrderViewControllerViewModelDelegate,AlertDisplayer{
+   
     
     @IBOutlet weak var checkOutButton: UIButton!
     
@@ -21,18 +21,22 @@ class OrderViewController: UIViewController ,UITableViewDataSource,UITableViewDe
     
     @IBOutlet weak var orderDate: UILabel!
     @IBOutlet weak var orderId: UILabel!
-    var orderItems : [OrderDetail] = []
-    var order : Order?
-    var orderNumber: String?
+    
+    private var viewModel: OrderViewControllerViewModel!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        viewModel = OrderViewControllerViewModel(orderDelegate: self)
+        
         tableView.delegate = self
         tableView.dataSource = self
         
         
     }
     override func viewDidAppear(_ animated: Bool) {
-        fetchData()
+        fetchData();
     }
     override func viewWillAppear(_ animated: Bool) {
         stackview.layoutMargins = UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5)
@@ -45,17 +49,14 @@ class OrderViewController: UIViewController ,UITableViewDataSource,UITableViewDe
     }
     func fetchData() {
         
-        do {
-            let order =  try CoreDataHelper.shared.fetchOrder()
+            let order =  viewModel.fetchOrder()
             if (order != nil){
                 addressLabel.text = order?.address
                 orderId.text = "OrderID - #"
                 orderDate.text = "Order Date -\(DateFormatter.localizedString(from: (order?.orderdate)!, dateStyle: .none, timeStyle: .short))"
-                let orderDetailarr  = order?.orderdetail?.allObjects as! [OrderDetail]
-                orderItems = orderDetailarr
                 tableView.reloadData()
                 let footer = Bundle.main.loadNibNamed("FooterView", owner: self, options: nil     )?.first as! FooterView
-                let result = calculateTotal(orderDetails: orderItems)
+                let result = viewModel.calculateTotal()
                 footer.taxLabel.text = String(result.tax)
                 footer.totalLabel.text = String(result.grandTotal)
                 footer.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 150)
@@ -65,11 +66,8 @@ class OrderViewController: UIViewController ,UITableViewDataSource,UITableViewDe
                 showCotentView(show : false)
 
             }
-
-        } catch (let error) {
-            print(error)
-        }
     }
+   
     func showCotentView(show: Bool)  {
         if show {
             contentVIew.isHidden = false
@@ -78,57 +76,13 @@ class OrderViewController: UIViewController ,UITableViewDataSource,UITableViewDe
         }else {
             contentVIew.isHidden = true
             checkOutButton.isHidden = true
-            noDataLabel.isHidden = true
+            noDataLabel.isHidden = false
         }
     }
+   
+    
     @IBAction func checkOut(_ sender: Any) {
-        var orderEntites : [OrderEntity] = []
-        var total = 0.0
-        for item in orderItems {
-            guard let product = item.orderproduct else {
-                return
-            }
-            let price = product.amount
-            let lineTotal = Double (item.quantity) * price
-            total += lineTotal
-            
-           
-            let entity = OrderEntity(productId: Int(product.id), productName: product.name!, amount: product.amount, quantity: Int(item.quantity), lineTotal: lineTotal)
-            orderEntites.append(entity)
-        }
-        let tax = total * 0.05
-        let grandTotal = total + tax
-        
-        let orderRequest = OrderRequest(subTotal: total, tax: tax, total: grandTotal, orderEntries: orderEntites)
-        DataRepository.shared.insertOrder(param: orderRequest, completion:  { (result ) in
-            
-            switch result {
-            case .success(let orderResponse) :
-                
-                print(orderResponse)
-                do {
-                    try CoreDataHelper.shared.deleteOrder()
-
-                }catch(let error ){
-                    print(error)
-                }
-                
-                DispatchQueue.main.async {
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let nextViewController = storyboard.instantiateViewController(identifier: "OrderCompleteViewController") as OrderCompleteViewController
-                    nextViewController.orderNo = String(orderResponse.orderNumber)
-                    //self.navigationController?.pushViewController(nextViewController, animated: true)
-                    self.present(nextViewController, animated: true, completion: nil)
-                    self.navigationController?.popToRootViewController(animated: true)
-                   
-                }
-            
-            case .failure(let error):
-                print(error)
-            }
-            
-        
-        })
+        viewModel.checkOut()
     }
     @IBAction func editAddress(_ sender: Any) {
         
@@ -147,15 +101,8 @@ class OrderViewController: UIViewController ,UITableViewDataSource,UITableViewDe
             // this code runs when the user hits the "save" button
 
             if let inputName = alertController.textFields![0].text {
-               
-                do
-                {
-                 try CoreDataHelper.shared.updateAddress(address: inputName)
-                    self.addressLabel.text = inputName
-                }
-                catch (let error) {
-                    print(error)
-                }
+                self.viewModel.updateAddress(address: inputName)
+                self.addressLabel.text = inputName
             }
 
         }
@@ -168,56 +115,64 @@ class OrderViewController: UIViewController ,UITableViewDataSource,UITableViewDe
 
     }
    
-    
+    // MARK - tableView Delegate
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
             return 120
       }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        orderItems.count
+        viewModel.itemCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)  as? OrderItemTableViewCell else {
                  fatalError("The dequeued cell is not an instance of OrderItemTableViewCell.")
              }
-        
-        let item = self.orderItems[indexPath.row]
-        if(item.orderproduct != nil) {
-            
-            let product = item.orderproduct
-            guard  let imageURL = URL(string: (product?.image)!)
-                else {
-                    fatalError("Invalid Image Url")
-
-            }
-            cell.productImageView.kf.setImage(with: imageURL)
-            let productId = String(product!.id)
-            cell.productCodeLabel.text = "Product Code :\(String(describing: productId ))"
-            cell.descriptionLabel.text = "\(item.quantity) X \(String(describing: product?.name ?? ""))"
-            
-            let price = product?.amount ?? 0
-            let subtotal = Double (item.quantity) * price
-            cell.subTotalLabel.text = String(subtotal)
-            
-
-         }
+        cell.configure(with: self.viewModel.orderItem(at: indexPath.row))
          return cell
     }
 
-    func calculateTotal(orderDetails : [OrderDetail]) -> (subTotal: Double,tax: Double,grandTotal :Double) {
-        
-        var total = 0.0
-        for  item in orderDetails {
-            let price = item.orderproduct?.amount ?? 0
-            let subtotal = Double (item.quantity) * price
-            total += subtotal
-        }
-        let subTotal = total
-        let tax = total * 0.05
-        let grandTotal = subTotal + tax
     
-        return (subTotal,tax,grandTotal)
+    // MARK: OrderViewControllerViewModelDelegate
+    func onSubmitComplete(with orderNo: String) {
+       
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let nextViewController = storyboard.instantiateViewController(identifier: "OrderCompleteViewController") as OrderCompleteViewController
+            nextViewController.orderNo = orderNo
+            //self.navigationController?.pushViewController(nextViewController, animated: true)
+            self.present(nextViewController, animated: true, completion: nil)
+            self.navigationController?.popToRootViewController(animated: true)
+           
+        
+    }
+    
+    func onFailed(with reason: String) {
+        printError(reason: reason)
+
+    }
+   
+    
+    func onAuthnicationFailed(with error: HiveError){
+        switch error {
+        case .invalidCredentials:
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let loginViewController = storyboard.instantiateViewController(identifier: "LoginViewController")
+                let sceneDelegate = UIApplication.shared.connectedScenes
+                        .first!.delegate as! SceneDelegate
+                sceneDelegate.window?.rootViewController = loginViewController
+            
+        default:
+            print(error)
+            printError(reason: error.localizedDescription)
+           
+        }
+    }
+    func printError(reason : String){
+        
+        let title = "Warning"
+        let action = UIAlertAction(title: "OK", style: .default)
+        displayAlert(with: title , message: reason, actions: [action])
+
     }
 //    
 //    // MARK: - Navigation

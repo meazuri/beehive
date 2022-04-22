@@ -633,9 +633,13 @@
                                     <action selector="checkOut:" destination="EbL-55-dwy" eventType="touchUpInside" id="JbX-So-qQ0"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Let 's shop" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3PF-E9-Xhu">
-                                <rect key="frame" x="151.66666666666666" y="412" width="86.666666666666657" height="20.333333333333314"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Let 's shop" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3PF-E9-Xhu">
+                                <rect key="frame" x="151.66666666666666" y="407" width="86.666666666666657" height="30"/>
                                 <color key="backgroundColor" red="0.66274509800000003" green="0.65098039220000004" blue="0.91764705879999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="86.670000000000002" id="KD3-26-EA0"/>
+                                    <constraint firstAttribute="height" constant="30" id="Th0-at-fOl"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>

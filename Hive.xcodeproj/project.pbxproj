@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2E0A881FF83F7E95116DD6D3 /* Pods_HiveTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDF9E469B316CB79381EC4FE /* Pods_HiveTests.framework */; };
+		4923554D2811ACBE00834F43 /* OrderViewControllerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4923554C2811ACBE00834F43 /* OrderViewControllerViewModel.swift */; };
 		49772451280FA31000CA0ECC /* KeychaingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49772450280FA31000CA0ECC /* KeychaingHelper.swift */; };
 		49772453280FADB700CA0ECC /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49772452280FADB700CA0ECC /* UserSession.swift */; };
 		49772455280FB96C00CA0ECC /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49772454280FB96C00CA0ECC /* ProductDetailViewController.swift */; };
@@ -76,6 +77,7 @@
 
 /* Begin PBXFileReference section */
 		42C01BFDBF7513D9BA771C6C /* Pods_Hive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4923554C2811ACBE00834F43 /* OrderViewControllerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderViewControllerViewModel.swift; sourceTree = "<group>"; };
 		49772450280FA31000CA0ECC /* KeychaingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychaingHelper.swift; sourceTree = "<group>"; };
 		49772452280FADB700CA0ECC /* UserSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
 		49772454280FB96C00CA0ECC /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				49ADE3A828119A960082FDDC /* ProductsViewControllerViewModel.swift */,
+				4923554C2811ACBE00834F43 /* OrderViewControllerViewModel.swift */,
 			);
 			path = viewModel;
 			sourceTree = "<group>";
@@ -618,6 +621,7 @@
 				49ADE37F28110BAB0082FDDC /* OrderProduct+CoreDataClass.swift in Sources */,
 				49772451280FA31000CA0ECC /* KeychaingHelper.swift in Sources */,
 				49C8D27C280E90D800FCFF25 /* AppDelegate.swift in Sources */,
+				4923554D2811ACBE00834F43 /* OrderViewControllerViewModel.swift in Sources */,
 				49C8D2BB280EE79000FCFF25 /* DataRepository.swift in Sources */,
 				49ADE3A528116F1E0082FDDC /* OrderCompleteViewController.swift in Sources */,
 				49ADE38F2811170F0082FDDC /* OrderProduct+CoreDataProperties.swift in Sources */,

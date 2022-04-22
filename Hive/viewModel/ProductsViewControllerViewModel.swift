@@ -8,7 +8,8 @@
 import Foundation
 protocol ProductsViewControllerViewModelDelegate : AnyObject {
     func onFetchCompleted(with newIndexPathsToReload: [IndexPath]?)
-    func onFetchFailed(with reason: String, error: HiveError)
+    func onFetchFailed(with reason: String)
+    func onAuthnicationFailed(with error: HiveError)
 
 }
 final class ProductsViewControllerViewModel {
@@ -73,7 +74,6 @@ final class ProductsViewControllerViewModel {
             
             switch result {
             case .success(let productResponse):
-                DispatchQueue.main.async {
                   // 1
                     self.currentPage += 1
                     self.isFetchInProgress = false
@@ -85,12 +85,16 @@ final class ProductsViewControllerViewModel {
                   
                   // 3
                     if productResponse.page > 0 {
-                    let indexPathsToReload = self.calculateIndexPathsToReload(from: productResponse.content)
-                    self.delegate?.onFetchCompleted(with: indexPathsToReload)
+                        let indexPathsToReload = self.calculateIndexPathsToReload(from: productResponse.content)
+                        DispatchQueue.main.async {
+                            self.delegate?.onFetchCompleted(with: indexPathsToReload)
+                        }
                     } else {
-                    self.delegate?.onFetchCompleted(with: .none)
-                  }
-                }
+                        DispatchQueue.main.async {
+                            self.delegate?.onFetchCompleted(with: .none)
+                        }
+                        
+                    }
                 
             case .failure(let error ):
                 print(error)
@@ -99,26 +103,30 @@ final class ProductsViewControllerViewModel {
                     switch hivError {
                     case .invalidCredentials:
                         KeychainHelper.standard.delete(service: "access-token", account: "hive")
-                        
                         DispatchQueue.main.async {
-                          self.isFetchInProgress = false
-                            self.delegate?.onFetchFailed(with: error.localizedDescription,error: hivError)
+                            self.delegate?.onAuthnicationFailed(with:  hivError)
                         }
-                        
-                    default:
-                        print(error)
 
+                    default:
+                        self.onFailed(error: hivError.localizedDescription)
+                        
                     }
 
                 }else{
-                    print(error)
+                    self.onFailed(error: error.localizedDescription)
 
                 }
             }
         })
         
     }
-    
+    private func onFailed(error: String){
+        print(error)
+        DispatchQueue.main.async {
+          self.isFetchInProgress = false
+            self.delegate?.onFetchFailed(with: error)
+        }
+    }
     private func calculateIndexPathsToReload(from newProducts: [Product]) -> [IndexPath] {
       let startIndex = products.count - newProducts.count
       let endIndex = startIndex + newProducts.count

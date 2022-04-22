@@ -10,6 +10,8 @@ import Kingfisher
 
 class ProductsViewController: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout, UITextFieldDelegate, UICollectionViewDataSourcePrefetching,AlertDisplayer, ProductsViewControllerViewModelDelegate  {
     
+    
+    
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var greetingLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -38,7 +40,7 @@ class ProductsViewController: UIViewController,UICollectionViewDataSource, UICol
 
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = false
-
+ 
     }
     override func viewDidAppear(_ animated: Bool) {
         configureUI()
@@ -191,34 +193,28 @@ class ProductsViewController: UIViewController,UICollectionViewDataSource, UICol
           let indexPathsToReload = visibleIndexPathsToReload(intersecting: newIndexPathsToReload)
          collectionView.reloadItems(at: indexPathsToReload)
     }
-    func onFetchFailed(with reason: String, error: HiveError) {
+    func onFetchFailed(with reason: String) {
+        printError(reason: reason)
+    }
+    
+    func onAuthnicationFailed(with error: HiveError)  {
         loadingIndicator.stopAnimating()
 
         print(error)
-        if let hivError = error as? HiveError {
             
-            switch hivError {
+            switch error {
             case .invalidCredentials:
-                KeychainHelper.standard.delete(service: "access-token", account: "hive")
-                DispatchQueue.main.async {
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
                     let loginViewController = storyboard.instantiateViewController(identifier: "LoginViewController")
                     let sceneDelegate = UIApplication.shared.connectedScenes
                             .first!.delegate as! SceneDelegate
                     sceneDelegate.window?.rootViewController = loginViewController
-                }
+                
             default:
                 print(error)
                 printError(reason: error.localizedDescription)
                
             }
-
-        }else{
-            print(error)
-            printError(reason: reason)
-
-
-        }
     }
     
     func printError(reason : String){
